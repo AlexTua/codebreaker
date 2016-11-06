@@ -7,6 +7,9 @@ module Codebreaker
 
     def initialize(name)
       @player_name = name
+    end
+
+    def start_game
       @secret_code = generate_secret_code
       @attempts =  ATTEMPTS_NUMBER
       @hints = HINTS_NUMBER
@@ -31,14 +34,17 @@ module Codebreaker
       guess.each_with_index do |num, ind|
         if code.include?(num)
           answer << '-'
-          code[code.find_index(num)], guess[ind] = nil
+          code[code.find_index(num)] = nil
         end
       end
-
+      
       answer
     end
 
     def get_hint
+      return "You don't have any hints" if @hints == 0
+      @hints -= 1
+      @secret_code[rand(4)]
     end
 
     private
