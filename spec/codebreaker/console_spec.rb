@@ -41,7 +41,6 @@ module Codebreaker
         end
 
         it 'call #check_guess method' do
-          allow(console.instance_variable_get(:@game)).to receive(:check_guess)
           expect(console.instance_variable_get(:@game)).to receive(:check_guess)
           console.play_game
         end
@@ -61,20 +60,29 @@ module Codebreaker
     end
   
     context '#game_over' do
-      before { allow(console).to receive(:play_again) }
+      before do 
+        allow(console).to receive(:play_again) 
+        allow(console).to receive(:ask_for_save)
+      end
 
       it 'print congratulations message' do
-        expect { console.game_over(:win) }.to output(/Congratulations, you broke the code!/).to_stdout
+        expect { console.send(:game_over, :win)  }.to output(/Congratulations, you broke the code!/).to_stdout
       end
 
       it 'print message about loss' do 
-        expect { console.game_over(:lose) }.to output(/Unfortunately there are no more attempts./).to_stdout
+        expect { console.send(:game_over, :lose)  }.to output(/Unfortunately there are no more attempts./).to_stdout
       end
 
       it 'call #play_again method' do
         allow(console).to receive(:puts)
         expect(console).to receive(:play_again)
-        console.game_over(:win) 
+        console.send(:game_over, :win) 
+      end
+
+      it 'call #ask_for_save method' do
+        allow(console).to receive(:puts)
+        expect(console).to receive(:ask_for_save)
+        console.send(:game_over, :win) 
       end
     end
 
@@ -85,19 +93,49 @@ module Codebreaker
       end
 
       it 'ask about play again' do
-        expect { console.play_again  }.to output(/Would you like to play again?/).to_stdout
+        expect { console.send(:play_again) }.to output(/Would you like to play again?/).to_stdout
       end
 
       it "create new game" do
         allow(console).to receive(:puts)
         expect(Game).to receive(:new)
-        console.play_again 
+        console.send(:play_again) 
       end
 
       it "call #play_game method" do
         allow(console).to receive(:puts)
         expect(console).to receive(:play_game)
-        console.play_again 
+        console.send(:play_again)
+      end
+    end
+
+    context '#ask_for_save' do
+      before do
+        allow(console).to receive(:save_data) 
+        allow(console).to receive(:gets).and_return('y')
+      end
+
+      it 'ask about play again' do
+        expect { console.send(:ask_for_save) }.to output(/Would you like to save game result?/).to_stdout
+      end
+
+      it "call #save_dara method" do
+        allow(console).to receive(:puts)
+        expect(console).to receive(:save_data)
+        console.send(:ask_for_save)
+      end
+    end
+
+    context '#save_data' do
+      after do
+          File.delete('statistics.yaml')
+      end
+
+      it 'statistics.yaml should exist' do
+        allow(console).to receive(:puts)
+        allow(console).to receive(:gets).and_return('Alex')
+        console.send(:save_data)
+        expect(File.exist?('statistics.yaml')).to eq true
       end
     end
   end

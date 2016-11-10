@@ -29,6 +29,16 @@ module Codebreaker
       @attempts == 0
     end
 
+    def to_h
+      {
+        :secret_code => @secret_code,
+        :attempts_left => @attempts,
+        :hints_left => @hints,
+        :hints_number => HINTS_NUMBER,
+        :attempts_number => ATTEMPTS_NUMBER
+      }
+    end
+
     def to_s
       "Secret code: #{@secret_code}, " +
       "attempts left: #{@attempts}, hints left: #{@hints}"
@@ -44,19 +54,17 @@ module Codebreaker
       answer = ''
 
       guess.each_with_index do |number, index|
-        if code.include?(number) && code[index] == number
-          answer << '+'
-          code[index], guess[index] = nil
-        end
+        next unless code[index] == number
+        answer << '+'
+        code[index], guess[index] = nil
       end
 
       [code,guess].each(&:compact!)
 
-      guess.each_with_index do |number, index|
-        if code.include?(number)
-          answer << '-'
-          code[code.find_index(number)] = nil
-        end
+      guess.each do |number|
+        next unless code.include?(number)
+        answer << '-'
+        code[code.find_index(number)] = nil
       end
       
       answer
