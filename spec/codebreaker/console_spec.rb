@@ -7,7 +7,7 @@ module Codebreaker
     context '#play_game' do
       before do
         allow(console).to receive(:game_over) 
-        allow(console.instance_variable_get(:@game)).to receive(:game_over?).and_return('true')
+        allow(console.instance_variable_get(:@game)).to receive(:any_attempts?).and_return(false)
       end
 
       describe 'should print messages' do
@@ -52,7 +52,7 @@ module Codebreaker
         end
 
         it 'call #game_over(:lose) method when no attempts' do
-          allow(console.instance_variable_get(:@game)).to receive(:game_over?).and_return('false')
+          allow(console.instance_variable_get(:@game)).to receive(:any_attempts?).and_return(false)
           expect(console).to receive(:game_over).with(:lose)
           console.play_game
         end

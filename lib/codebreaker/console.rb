@@ -27,7 +27,7 @@ module Codebreaker
         end
 
       game_over(:win) if answer == '++++'
-      end until @game.game_over?
+      end while @game.any_attempts?
 
       game_over(:lose)
     end

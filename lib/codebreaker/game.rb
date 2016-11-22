@@ -12,7 +12,7 @@ module Codebreaker
     end
 
     def check_guess(guess)
-      return "You don't have any attempts." if game_over?
+      return "You don't have any attempts." unless any_attempts?
       @attempts -= 1
       return '++++' if guess == @secret_code
 
@@ -25,8 +25,8 @@ module Codebreaker
       @secret_code[rand(4)]
     end
 
-    def game_over?
-      @attempts == 0
+    def any_attempts?
+      @attempts != 0
     end
 
     def to_h
@@ -34,8 +34,8 @@ module Codebreaker
         :secret_code => @secret_code,
         :attempts_left => @attempts,
         :hints_left => @hints,
-        :hints_number => HINTS_NUMBER,
-        :attempts_number => ATTEMPTS_NUMBER
+        :attempts_number => ATTEMPTS_NUMBER,
+        :hints_number => HINTS_NUMBER
       }
     end
 

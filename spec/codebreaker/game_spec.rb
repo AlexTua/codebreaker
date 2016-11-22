@@ -49,14 +49,14 @@ module Codebreaker
         end
     end
 
-    context '#game_over?' do
-      it 'return true if no attempts' do
+    context '#any_attempts?' do
+      it 'return false if no attempts' do
         game.instance_variable_set(:@attempts, 0)
-        expect(game.game_over?).to eq(true)
+        expect(game.any_attempts?).to eq(false)
       end
 
-      it 'return false if any attempts left' do
-        expect(game.game_over?).to eq(false)
+      it 'return true if any attempts left' do
+        expect(game.any_attempts?).to eq(true)
       end
     end
 
