@@ -11,12 +11,12 @@ module Codebreaker
       end
 
       describe 'should print messages' do
-        it 'should greet a player' do
+        it 'greet message' do
           allow(console).to receive(:gets).and_return('exit')
           expect{ console.play_game }.to output(/Welcome to Codebreaker!/).to_stdout
         end
 
-        it 'should give a hint' do
+        it "message with hint when player typed 'hint'" do
           allow(console).to receive(:gets).and_return('hint')
           allow(console.instance_variable_get(:@game)).to receive(:get_hint).and_return('HINT')
           expect{ console.play_game }.to output(/HINT/).to_stdout
