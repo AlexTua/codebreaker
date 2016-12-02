@@ -63,11 +63,9 @@ module Codebreaker
 
     def save_data
       File.new('statistics.yaml', 'w') unless File.exist?('statistics.yaml')
-      
-      statistics = get_statisctics
 
       File.open('statistics.yaml', "w") do |f|
-        f.write(statistics.to_yaml)
+        f.write(get_statisctics.to_yaml)
       end
     end
   end
