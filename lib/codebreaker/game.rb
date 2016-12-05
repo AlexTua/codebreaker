@@ -47,7 +47,7 @@ module Codebreaker
     private
 
     def generate_secret_code
-      (0...4).map { rand(1..6) }.join
+      Array.new(4).map { rand(1..6) }.join
     end
 
     def mark(code, guess)

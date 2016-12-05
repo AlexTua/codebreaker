@@ -2,36 +2,30 @@ require 'spec_helper'
 
 module Codebreaker
   RSpec.describe Game do
-    let(:game) { Game.new }
-    
     context '#initialize' do
       it 'generates secret code' do
-        expect(game.instance_variable_get(:@secret_code)).not_to be_empty
-      end
-
-      it 'saves 4 numbers secret code' do
-        expect(game.instance_variable_get(:@secret_code).length).to eq(4)
+        expect(subject.instance_variable_get(:@secret_code)).not_to be_empty
       end
 
       it 'saves secret code with numbers from 1 to 6' do
-        expect(game.instance_variable_get(:@secret_code)).to match(/[1-6]+/)
+        expect(subject.instance_variable_get(:@secret_code)).to match(/[1-6]+/)
       end
     end
 
     context "#generate_secret_code" do
       it 'return 4 numbers' do
-        expect(game.send(:generate_secret_code).length).to eq(4)
+        expect(subject.send(:generate_secret_code).length).to eq(4)
       end
     end
 
     context '#check_guess' do
-      it 'reduce hints number by 1' do
-        expect { game.check_guess('1111') }.to change{ game.attempts }.by(-1)
+      it 'reduce attempts number by 1' do
+        expect { subject.check_guess('1111') }.to change{ subject.attempts }.by(-1)
       end
 
       it 'return warning message if no attempts' do
-        game.instance_variable_set(:@attempts, 0)
-        expect(game.check_guess('1111')).to eq("You don't have any attempts.")
+        subject.instance_variable_set(:@attempts, 0)
+        expect(subject.check_guess('1111')).to eq("You don't have any attempts.")
       end
 
       [
@@ -43,41 +37,41 @@ module Codebreaker
         ['1115', '1231', '+-'], ['1231', '1111', '++']
       ].each do |item|
           it "Secret code is #{item[0]}, guess is #{item[1]}, must return #{item[2]}" do
-            game.instance_variable_set(:@secret_code, item[0])
-            expect(game.check_guess(item[1])).to eq(item[2])
+            subject.instance_variable_set(:@secret_code, item[0])
+            expect(subject.check_guess(item[1])).to eq(item[2])
           end
         end
     end
 
     context '#any_attempts?' do
       it 'return false if no attempts' do
-        game.instance_variable_set(:@attempts, 0)
-        expect(game.any_attempts?).to eq(false)
+        subject.instance_variable_set(:@attempts, 0)
+        expect(subject.any_attempts?).to eq(false)
       end
 
       it 'return true if any attempts left' do
-        expect(game.any_attempts?).to eq(true)
+        expect(subject.any_attempts?).to eq(true)
       end
     end
 
     context '#get_hint' do
       it 'reduce hints number by 1' do
-        expect { game.get_hint }.to change{ game.hints }.by(-1)
+        expect { subject.get_hint }.to change{ subject.hints }.by(-1)
       end
 
       it 'return one number of secret code' do
-        expect(game.instance_variable_get(:@secret_code)).to include(game.get_hint)
+        expect(subject.instance_variable_get(:@secret_code)).to include(subject.get_hint)
       end
 
       it 'return warning message if no hints' do
-        game.instance_variable_set(:@hints, 0)
-        expect(game.get_hint).to eq("You don't have any hints.")
+        subject.instance_variable_set(:@hints, 0)
+        expect(subject.get_hint).to eq("You don't have any hints.")
       end
     end
 
     context '#to_h' do
       it 'return a hash' do
-        expect(game.to_h).to be_kind_of(Hash)
+        expect(subject.to_h).to be_kind_of(Hash)
       end
     end
   end
