@@ -14,12 +14,13 @@ module Codebreaker
       begin 
         case guess = gets.chomp
           when 'hint'
-            puts @game.get_hint
+            hint = @game.hint
+            puts  hint ? hint : "You don't have any hints."
           when 'exit'
             return
           when /^[1-6]{4}$/
             answer = @game.check_guess(guess)
-            puts answer
+            puts answer ? answer : "You don't have any attempts."
             game_over(:win) if answer == '++++'
           else
             puts 'You should type a guess of four numbers from 1 to 6.'

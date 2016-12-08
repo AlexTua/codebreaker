@@ -25,7 +25,7 @@ module Codebreaker
 
       it 'return warning message if no attempts' do
         subject.instance_variable_set(:@attempts, 0)
-        expect(subject.check_guess('1111')).to eq("You don't have any attempts.")
+        expect(subject.check_guess('1111')).to eq(nil)
       end
 
       [
@@ -54,18 +54,18 @@ module Codebreaker
       end
     end
 
-    context '#get_hint' do
+    context '#hint' do
       it 'reduce hints number by 1' do
-        expect { subject.get_hint }.to change{ subject.hints }.by(-1)
+        expect { subject.hint }.to change{ subject.hints }.by(-1)
       end
 
       it 'return one number of secret code' do
-        expect(subject.instance_variable_get(:@secret_code)).to include(subject.get_hint)
+        expect(subject.instance_variable_get(:@secret_code)).to include(subject.hint)
       end
 
       it 'return warning message if no hints' do
         subject.instance_variable_set(:@hints, 0)
-        expect(subject.get_hint).to eq("You don't have any hints.")
+        expect(subject.hint).to eq(nil)
       end
     end
 

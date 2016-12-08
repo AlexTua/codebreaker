@@ -16,7 +16,7 @@ module Codebreaker
 
         it "message with hint when player typed 'hint'" do
           allow(subject).to receive(:gets).and_return('hint')
-          allow(subject.instance_variable_get(:@game)).to receive(:get_hint).and_return('HINT')
+          allow(subject.instance_variable_get(:@game)).to receive(:hint).and_return('HINT')
           expect { subject.play_game }.to output(/HINT/).to_stdout
         end
 

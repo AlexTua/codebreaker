@@ -12,15 +12,15 @@ module Codebreaker
     end
 
     def check_guess(guess)
-      return "You don't have any attempts." unless any_attempts?
+      return unless any_attempts?
       @attempts -= 1
       return '++++' if guess == @secret_code
 
       mark(@secret_code.chars, guess.chars)
     end
 
-    def get_hint
-      return "You don't have any hints." if @hints == 0
+    def hint
+      return if @hints == 0
       @hints -= 1
       @secret_code[rand(4)]
     end
