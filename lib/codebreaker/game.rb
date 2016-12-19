@@ -32,8 +32,8 @@ module Codebreaker
     def to_h
       {
         :secret_code => @secret_code,
-        :attempts_left => @attempts,
-        :hints_left => @hints,
+        :attempts_used => ATTEMPTS_NUMBER - @attempts,
+        :hints_used => HINTS_NUMBER - @hints,
         :attempts_number => ATTEMPTS_NUMBER,
         :hints_number => HINTS_NUMBER
       }

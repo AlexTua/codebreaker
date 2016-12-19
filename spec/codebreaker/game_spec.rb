@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 module Codebreaker
   RSpec.describe Game do
     context '#initialize' do
