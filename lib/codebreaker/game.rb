@@ -52,7 +52,6 @@ module Codebreaker
 
     def mark(code, guess)
       answer = ''
-
       guess.each_with_index do |number, index|
         next unless code[index] == number
         answer << '+'
